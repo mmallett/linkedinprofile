@@ -5,3 +5,5 @@ source "https://rubygems.org"
 
 gem 'sinatra'
 gem 'oauth'
+gem 'json_pure'
+gem 'rake'
