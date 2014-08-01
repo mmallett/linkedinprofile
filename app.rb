@@ -1,25 +1,28 @@
-require 'rubygems'
 require 'sinatra'
 require 'json/pure'
 require 'oauth'
 
-require 'pp'
+get '/' do
 
-set :port, 8888
+	# access tokens cut out, pasted in at runtime
 
-get '/linkedin' do
+    begin
 
-	configuration = {:site => 'https://api.linkedin.com'}
+		configuration = {:site => 'https://api.linkedin.com'}
 
-	consumer = OAuth::Consumer.new(api_key, api_secret, configuration)
+		consumer = OAuth::Consumer.new(api_key, api_secret, configuration)
 
-	access_token = OAuth::AccessToken.new(consumer, user_token, user_secret)
+		access_token = OAuth::AccessToken.new(consumer, user_token, user_secret)
 
-	response = ('http://api.linkeidn.com/v1/people/~?format=json')
+		response = access_token.get('http://api.linkedin.com/v1/people/~:(positions,educations)?format=json')
 
-	content_type :json
+		content_type :json
 
-	puts PP.pp(response)
+		return response.body
 
-	return response.to_json
+	rescue
+
+		halt 500
+
+	end
 end
